@@ -106,21 +106,22 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
  * Create restaurant operating hours HTML table and add it to the webpage.
  */
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
-  const hours = document.getElementById('restaurant-hours');
-  for (let key in operatingHours) {
-    const row = document.createElement('tr');
-
-    const day = document.createElement('td');
-    day.innerHTML = key;
-    row.appendChild(day);
-
-    const time = document.createElement('td');
-    time.innerHTML = operatingHours[key];
-    row.appendChild(time);
-
-    hours.appendChild(row);
-  }
-}
+  const rest_hours = document.getElementById('restaurant-hours');
+  const open = operatingHours;
+      for (let key in open) {
+        if (open.hasOwnProperty(key)) {
+          const day = document.createElement('div');
+          day.id = "day";
+          day.innerHTML += key + ": ";
+          rest_hours.appendChild(day);
+          const val = open[key];
+          const time = document.createElement('div');
+          time.id = "time";
+          time.innerHTML += val;
+          rest_hours.appendChild(time);
+        }
+      }
+  };
 
 /**
  * Create all reviews HTML and add them to the webpage.
@@ -148,22 +149,24 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  * Create review HTML and add it to the webpage.
  */
 createReviewHTML = (review) => {
-  const li = document.createElement('li');
-  const name = document.createElement('p');
-  name.innerHTML = review.name;
+  const li = document.createElement('div');
+  li.className = "review-div";
+
+  const comments = document.createElement('figure');
+  comments.innerHTML = '"' + review.comments + '"';
+  li.appendChild(comments);
+
+  const name = document.createElement('figcaption');
+  name.innerHTML = "- " + review.name;
   li.appendChild(name);
 
-  const date = document.createElement('p');
+  const date = document.createElement('figcaption');
   date.innerHTML = review.date;
   li.appendChild(date);
 
-  const rating = document.createElement('p');
+  const rating = document.createElement('figcaption');
   rating.innerHTML = `Rating: ${review.rating}`;
   li.appendChild(rating);
-
-  const comments = document.createElement('p');
-  comments.innerHTML = review.comments;
-  li.appendChild(comments);
 
   return li;
 }
